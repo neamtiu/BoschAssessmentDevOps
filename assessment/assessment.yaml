@@ -1,0 +1,11 @@
+---
+
+- name: Assessment playbook
+  hosts: assessmentserver
+  become: yes
+  tasks:
+
+    - name: Install wget
+      yum:
+        name: wget
+        state: present         
