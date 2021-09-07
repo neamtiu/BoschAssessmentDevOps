@@ -3,7 +3,7 @@
 - name: Assessment playbook
   hosts: assessmentserver
   tasks:
-
+  
     - name: Install wget
       yum:
         name: wget
@@ -13,7 +13,7 @@
       yum:
         name: yum-utils
         state: present
-    
+
     - name: Install Python
       yum:
         name: python3
@@ -73,13 +73,16 @@
         src: /home/assessment/BoschAssessmentDevOps-main.zip
         dest: /home/assessment/main
         remote_src: yes
-	
+
     - name: Remove old app dockerfile
       command: "rm /home/assessment/master/getting-started-master/Dockerfile"
-	  
+
     - name: Move new app dockerfile
       command: "cp /home/assessment/main/BoschAssessmentDevOps-main/assessment/Dockerfile /home/assessment/master/getting-started-master"
-	
+
+    - name: Move docker-compose file
+      command: "cp /home/assessment/main/BoschAssessmentDevOps-main/assessment/run_app.yaml /home/assessment/master/getting-started-master"
+
     - name: Build app docker image
       docker_image:
         name: todoapp:v1.0
@@ -87,3 +90,14 @@
           path: /home/assessment/master/getting-started-master/
         source: build
         state: present
+
+    - name: Pull mysql docker image
+      docker_image:
+        name: mysql
+        tag: 5.7
+        source: pull
+
+    - name: Run app using docker-compose
+      docker_compose:
+        project_src: /home/assessment/master/getting-started-master
+        files: run_app.yaml
