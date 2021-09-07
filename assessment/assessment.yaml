@@ -45,4 +45,45 @@
        name: docker
        state: started
        enabled: yes
-       
+	   
+    - name: Get application zip
+      get_url:
+       url: https://github.com/docker/getting-started/archive/refs/heads/master.zip
+       dest: /home/assessment/master.zip
+
+    - name: Create master directory for application
+      command: "mkdir /home/assessment/master"
+	   
+    - name: Unzip application
+      unarchive:
+        src: /home/assessment/master.zip
+        dest: /home/assessment/master
+        remote_src: yes
+
+    - name: Get Dockerfile and docker-compose.yaml
+      get_url:
+        url: https://github.com/neamtiu/BoschAssessmentDevOps/archive/refs/heads/main.zip
+        dest: /home/assessment/
+ 
+    - name: Create master directory for application
+      command: "mkdir /home/assessment/main"
+ 
+    - name: Unzip documents
+      unarchive:
+        src: /home/assessment/BoschAssessmentDevOps-main.zip
+        dest: /home/assessment/main
+        remote_src: yes
+	
+    - name: Remove old app dockerfile
+      command: "rm /home/assessment/master/getting-started-master/Dockerfile"
+	  
+    - name: Move new app dockerfile
+      command: "cp /home/assessment/main/BoschAssessmentDevOps-main/assessment/Dockerfile /home/assessment/master/getting-started-master"
+	
+    - name: Build app docker image
+      docker_image:
+        name: todoapp:v1.0
+        build:
+          path: /home/assessment/master/getting-started-master/
+        source: build
+        state: present
