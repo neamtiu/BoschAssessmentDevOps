@@ -6,6 +6,8 @@ services:
     ports:
       - 3000:3000
     working_dir: /app
+    volumes:
+      - /home/assessment/master/getting-started-master/app:/app
     environment:
       MYSQL_HOST: mysql
       MYSQL_USER: root
@@ -14,6 +16,10 @@ services:
 
   mysql:
     image: mysql:5.7
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: todos
+volumes:
+  todo-mysql-data:
