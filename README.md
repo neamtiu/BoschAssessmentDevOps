@@ -11,3 +11,5 @@
 - run_app.yaml = used to run the docker images for the application and the database using docker-compose
 
 - assessment.yaml = contains all the instructions given to ansible to deploy the application
+
+Application access link is the following: http://18.157.176.82:3000/ 
