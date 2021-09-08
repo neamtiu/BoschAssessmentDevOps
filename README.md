@@ -12,4 +12,6 @@
 
 - assessment.yaml = contains all the instructions given to ansible to deploy the application
 
+Pictures with the application running can be also found in the assessment folder.
+
 Application access link is the following: http://18.157.176.82:3000/ 
